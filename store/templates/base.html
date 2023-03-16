@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <title>Store</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- bootstrap css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'store/css/bootstrap.min.css' %}">
+    <!-- style css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'store/css/style.css' %}">
+    <!-- Responsive-->
+    <link rel="stylesheet" href="{% static 'store/css/responsive.css' %}">
+
+</head>
+<body>
+    <div class="banner_bg_main">
+         <!-- header top section start -->
+         <div class="container">
+            <div class="header_section_top">
+               <div class="row">
+                  <div class="col-sm-12">
+                     <div class="custom_menu">
+                        <ul>
+                           <li><a href="#">Best Sellers</a></li>
+                           <li><a href="#">Gift Ideas</a></li>
+                           <li><a href="#">New Releases</a></li>
+                           <li><a href="#">Today's Deals</a></li>
+                           <li><a href="#">Customer Service</a></li>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- header top section start -->
+         <!-- logo section start -->
+         <div class="logo_section">
+            <div class="container">
+               <div class="row">
+                  <div class="col-sm-12">
+                     <div class="logo"><a href="index.html"><img src="images/logo.png"></a></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- logo section end -->
+    </div>
+    {% block content %}
+
+    {% endblock %}
+    <!-- footer section start -->
+    <div class="footer_section layout_padding">
+        <div class="container">
+           <div class="footer_logo"><a href="index.html"><img src="{% static 'store/images/footer-logo.png' %}"></a></div>
+           <div class="input_bt">
+              <input type="text" class="mail_bt" placeholder="Your Email" name="Your Email">
+              <span class="subscribe_bt" id="basic-addon2"><a href="#">Subscribe</a></span>
+           </div>
+           <div class="footer_menu">
+              <ul>
+                 <li><a href="#">Best Sellers</a></li>
+                 <li><a href="#">Gift Ideas</a></li>
+                 <li><a href="#">New Releases</a></li>
+                 <li><a href="#">Today's Deals</a></li>
+                 <li><a href="#">Customer Service</a></li>
+              </ul>
+           </div>
+           <div class="location_main">Help Line  Number : <a href="#">+1 1800 1200 1200</a></div>
+        </div>
+     </div>
+     <!-- footer section end -->
+</body>
+</html>
