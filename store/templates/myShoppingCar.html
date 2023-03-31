@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="fashion_section">
+   <div id="main_slider" class="carousel slide" data-ride="carousel">
+      <div class="carousel-inner">
+         <div class="carousel-item active">
+            <div class="container">
+               <h1 class="fashion_taital mt-4">Mi Carrito de Compas</h1>
+               <div class="row">
+                  <div class="table-responsive mt-4">
+                     <table class="table">
+                        <thead>
+                           <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">Imagen</th>
+                              <th scope="col">Producto</th>
+                              <th scope="col">Cantidad</th>
+                              <th scope="col">Precio</th>
+                              <th scope="col">Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           {% if shoppingCar|length == 0 %}
+                           <tr>
+                              <th colspan="6"> 
+                                 <div class="justify-content-between text-center">
+                                    <h1 style="color: #666666; font-weight: bold; font-family: 'Poppins', sans-serif;">Favor incluir un producto</h1>
+                                 </div>
+                              </th>
+                           </tr>
+                           {% else %}   
+                              {% for id, nodo in shoppingCar.items %}
+                              <tr>
+                                 <th class="align-middle">
+                                    {{ id|add:"1" }}     
+                                 </th>
+                                 <th>
+                                    <img class="" src="{{nodo.product.images.imagen }}" style="height: 60px !important;">   
+                                 </th>
+                                 <th class="align-middle">
+                                    {{ nodo.product.name }}     
+                                 </th>
+                                  <th class="align-middle">
+                                    {{ nodo.quantity }}     
+                                 </th>
+                                 <th class="align-middle">
+                                    ₡ {{ nodo.product.price  }}     
+                                 </th>
+                                 <th class="align-middle">
+                                       
+                                 </th>
+                              </tr>
+                              {% endfor %}
+                           {% endif %}
+                        </tbody>  
+                        <tfoot>
+                           {% if shoppingCar|length == 0 %}
+                           <tr>
+                              <th colspan="6"> 
+                                 <div class="justify-content-between text-right">
+                                    <h1 style="color: #666666; font-weight: bold; font-family: 'Poppins', sans-serif;">
+                                       Total: ₡ 0
+                                    </h1>
+                                 </div>
+                              </th>
+                           </tr>
+                           {% else %}   
+                              <tr>
+                                 <th colspan="6">
+                                    <div class="justify-content-between text-right">
+                                       <h1 style="color: #666666; font-weight: bold; font-family: 'Poppins', sans-serif;">
+                                          Total: ₡ {{ total}}
+                                       </h1>
+                                    </div>
+                                 </th>
+                              </tr>
+                           {% endif %}
+                        </tfoot>    
+                     </table>
+                  </div>        
+               </div>  
+               <div class="row">
+                  {% if shoppingCar|length == 0 %}
+                  {% else %}
+                  <div class="col-10"></div>
+                  <div class="col-2">
+                     <div class="buynow_bt">
+                        <a href="#">Finalizar compra</a>
+                     </div>  
+                  </div>   
+                  {% endif %}
+               </div>    
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<script>
+
+
+</script>
+{% endblock %}

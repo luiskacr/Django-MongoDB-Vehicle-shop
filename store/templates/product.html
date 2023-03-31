@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="fashion_section">
+    <div id="main_slider" class="carousel slide" data-ride="carousel">
+       <div class="carousel-inner">
+          <div class="carousel-item active">
+             <div class="container">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">Productos</li>
+                    </ol>
+                </nav>
+                
+                <h1 class="fashion_taital mt-4"></h1>
+                <div class="row">
+                    <div class="col-6">
+                        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                {% if car.images|length == 0 %}
+                                    <div class="carousel-item active">
+                                        <img class="d-block w-100" src="https://camarasal.com/wp-content/uploads/2020/08/default-image-5-1.jpg" alt="First slide">
+                                    </div>  
+                                {% else %}
+                                    {% for imag in car.images %}  
+                                    <div class="carousel-item active">
+                                        <img class="d-block w-100" src="{{ car.images.imagen }}" alt="First slide" style="width: 500px !important;" >
+                                    </div>    
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            <!-- 
+                            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                              <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                              <span class="sr-only">Next</span>
+                            </a>
+                            --> 
+                          </div>  
+                                  
+                    </div>
+                    <div class="col-6">
+                            <h1 class="fashion_taital mt-4">{{ car.name}}</h1>
+                            <h3>SKU :{{ car.id }}</h3>
+                            <h3>Categoria : {{ car.category.name }}</h3>
+                            <div class="row mt-2">
+                                <div class="col-6">
+                                    <ul class="list-group mb-4">
+                                        <li class="list-group-item">Marca: {{car.make }} </li>
+                                        <li class="list-group-item">Modelo: {{car.model }} </li>
+                                        <li class="list-group-item">Ano: {{car.year }} </li>
+                                     </ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8">
+                                    <h1 style="color: #666666; font-weight: bold; font-family: 'Poppins', sans-serif;" >Precio : ₡{{ car.price }}</h1>
+                                    <div class="buynow_bt">
+                                        <a href="#" onclick="addCar( '{{ car.id}}' )">  Anadir al Carrito  </a>
+                                     </div>  
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                {{ car.description}}
+                            </div>
+                          </div>
+                    </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </div>
+
+{% endblock %}

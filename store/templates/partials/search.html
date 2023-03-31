@@ -1,0 +1,52 @@
+<div class="main">
+    <!-- Another variation with a button -->
+    <style>
+        #search-options {
+            position: absolute;
+            z-index: 6;            
+            overflow-y: auto;
+            width: 100%;
+            top: 40px;
+        }
+    </style>
+    <div class="input-group">
+       <input type="text" id="search-form"  oninput="searchProduc(this)"  class="form-control" placeholder="Buscar un Vehiculo">
+       <div class="input-group-append">
+          <button class="btn btn-secondary" type="button" style="background-color: #f26522; border-color:#f26522 ">
+          <i class="fa fa-search"></i>
+          </button>
+       </div>
+       <ul id="search-options" class="list-group" >
+        </ul>
+    </div>
+ </div>
+
+ <script>
+    function searchProduc(event){
+        let query = event.value
+        const options = document.getElementById('search-options')
+        if(query === '' || query.length === 0){ 
+            options.innerHTML = ''    
+            options.style.visibility = 'hidden'    
+        }else{
+            fetch('/search/?query=' + query)
+            .then(response => response.json())
+            .then(products => {
+                if(products.length === 0){
+                    options.innerHTML = ''
+                    options.innerHTML = '  <li class="list-group-item">No se encontraron Productos</li>'  
+                    options.style.visibility = 'visible'  
+                }else{
+                    options.innerHTML = ''     
+                    products.forEach(product => {
+                        var listItem = "<li class='list-group-item'><a href='/car/"+product.id+"'><img src='"+ product.images.imagen +"' style='height: 50px;'> " + product.name + " </a></li>";
+                        options.innerHTML += listItem;
+                    });
+                    options.style.visibility = 'visible' 
+                }
+            });
+        }
+    }
+
+    document.getElementById('search-options').style.visibility = 'hidden'
+ </script>

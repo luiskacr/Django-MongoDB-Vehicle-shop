@@ -1,0 +1,30 @@
+<!-- footer section start -->
+{% load static %}
+<div class="footer_section layout_padding">
+    <div class="container">
+       <div class="footer_logo"><a href="index.html"><img src="{% static 'store/images/footer-logo.png' %}"></a></div>
+       <div class="input_bt">
+          <input type="text" class="mail_bt" placeholder="Your Email" name="Your Email">
+          <span class="subscribe_bt" id="basic-addon2"><a href="#">Subscribe</a></span>
+       </div>
+       <div class="footer_menu">
+          <ul>
+             <li><a href="/">Inicio</a></li>
+             <li><a href="#">Gift Ideas</a></li>
+             <li><a href="#">New Releases</a></li>
+             <li><a href="#">Today's Deals</a></li>
+             <li><a href="#">Customer Service</a></li>
+          </ul>
+       </div>
+       <div class="location_main">Fidelitas : <a href="#">+506 2206 8600</a></div>
+    </div>
+ </div>
+ <!-- footer section end -->
+ <!-- copyright section start -->
+ <div class="copyright_section">
+    <div class="container">
+       {% now "Y" as current_year %}
+       <p class="copyright_text">© {{ current_year }} Bases de Datos NOSQL.   </p>
+    </div>
+ </div>
+ <!-- copyright section end -->
