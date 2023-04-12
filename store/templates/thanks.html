@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="row mt-4 text-center">
+        <div class="mt-5"></div>
+        <div class="mt-5" style="
+              margin: 0 auto;
+              text-align: center;
+            ">
+            <h1 style="text-align: center">
+                <i class="fa-solid fa-thumbs-up fa-2xl" style="color: #30302e;"></i>
+            </h1>
+        </div>
+
+        <h1 class="fashion_taital mt-4">Gracias por su Compra</h1>
+        <h3 class="mt-2" style="color: #30302e;
+                font-size: 22px;
+                width: 100%;
+                text-align: center;
+                ">
+            Tu Orden #{{ order.id }} ha sido Procesada
+        </h3>
+        <p style="color: #30302e;
+                font-size: 18px;
+                width: 100%;
+                text-align: center;">
+            Se le enviara un correo a {{ order.user.email }} con su confirmacion de Orden
+        </p>
+        <p style="color: #30302e;
+                font-size: 18px;
+                width: 100%;
+                text-align: center;">
+            <i class="fa-solid fa-clock" style="color: #000000;"></i> <strong>Orden
+            Realizada: </strong> {{ order.date }}
+        </p>
+    </div>
+    <div class="container mt-4">
+        <div class="card-group">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title mt-0"><h1><i class="fa-sharp fa-solid fa-location-pin"
+                                                       style="color: #f26522;"></i></h1> Ubicacion
+                    </h1>
+                    <p class="card-text">Contacto: {{ order.user.name }} <br> Ubicacion: {{ order.user.address }} </p>
+                    <p class="card-text"><small class="text-muted">Orden actualizada: {{ order.date }} </small></p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title"><h1><i class="fa-solid fa-cart-shopping" style="color: #f26522;"></i></h1>
+                        Compra
+                    </h1>
+                    <p class="card-text"> Tarjeta: {{ order.payment.cardName }} <br>
+                        Numero: {{ order.payment.cardNumber }} </p>
+                    <p class="card-text"><small class="text-muted">Orden actualizada: {{ order.date }}</small></p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="mt-4 mb-5" style=" margin: 0 auto;
+              text-align: center;">
+                 <div class="buynow_bt">
+                        <a href="/">Volver al Inicio</a>
+                     </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

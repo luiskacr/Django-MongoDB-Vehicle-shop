@@ -59,3 +59,11 @@ class Order(models.Model):
     objects = mongo.DjongoManager()
 
 
+class PromoCode(models.Model):
+    _id = mongo.ObjectIdField(primary_key=True)
+    name = models.CharField(max_length=100)
+    code = models.CharField(max_length=100, unique=True)
+    discount = models.DecimalField(max_digits=5, decimal_places=2)
+    quantity = models.IntegerField()    
+    def __str__(self):
+        return self.name 

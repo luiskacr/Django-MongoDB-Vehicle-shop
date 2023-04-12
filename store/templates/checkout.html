@@ -1,0 +1,292 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row mt-4 mb-5 text-center">
+        <h1 class="fashion_taital mt-4">Check out</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-4 order-md-2 mb-4">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">Tu Carrito </span>
+                <span class="badge badge-primary badge-pill" id="countCar"
+                    style="background-color: #f26522;"></span>
+            </h4>
+            <ul class="list-group mb-3">
+                {% for id, nodo in shoppingCar.items %}
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <img class="" src="{{nodo.product.images.imagen }}" style="height: 40px !important;">
+                    <div>
+                        <h6 class="my-0">{{ nodo.product.name }}</h6>
+                        <small class="text-muted">Año {{nodo.product.year }}</small>
+                    </div>
+                    <span class="text-muted">₡ {{ nodo.product.price }} </span>
+                </li>
+                {% endfor %}
+
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Total</span>
+                    <strong id="total">₡ {{ total }}</strong>   
+                </li>
+                <div class="total-price" data-price="{{ total }}"> 
+                </div>
+            </ul>
+
+            <div class="card p-2">
+                <div class="input-group">
+                    <input type="text" id="promoCode" class="form-control" placeholder="Codigo Promocional">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-secondary" style="background-color: #f26522; border-color: #f26522;" onclick="validatedPromoCode()">Codigo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 order-md-1">
+            <h1 class="fashion_taital" style="font-size: 30px !important;">Direccion </h1>
+            <form class="needs-validation" method="post" onsubmit="newOrder(event)" >
+                {% csrf_token %}                  
+                <div class="row">
+                    <div class="col-md-6 mb-3">                   
+                        <label for="firstName">Nombre</label>
+                        <input type="text" class="form-control" id="firstName" placeholder="" name="name" required="">
+                        <div class="invalid-feedback">
+                            Valid first name is required.
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="lastName">Apellido</label>
+                        <input type="text" class="form-control" id="lastName" placeholder="" name="lastName" value="" required="">
+                        <div class="invalid-feedback">
+                            Valid last name is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email">Correo  <span class="text-muted">(Optional)</span></label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="">
+                    <div class="invalid-feedback">
+                        Please enter a valid email address for shipping updates.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="address">Direccion </label>
+                    <input type="text" class="form-control" id="address" name="address" placeholder="" required="">
+                    <div class="invalid-feedback">
+                        Please enter your shipping address.
+                    </div>
+                </div>
+
+                <h2 class="fashion_taital mt-4 mb-2" style="font-size: 30px !important;">Pago</h2>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="cc-name">Nombre en la Tarjeta</label>
+                        <input type="text" class="form-control" id="cc-name" name="cc-name" placeholder="" required="">
+                        <small class="text-muted">El nombre completo como aparece en la tarjeta</small>
+                        <div class="invalid-feedback">
+                            Name on card is required
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="cc-number">Numero de Tarjeta</label>
+                        <input type="text" class="form-control" id="cc-number" name="cc-number" placeholder="" required="">
+                        <div class="invalid-feedback">
+                            Credit card number is required
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="cc-expiration">Fecha de Expiracion</label>
+                        <input type="text" class="form-control" id="cc-expiration" name="cc-expiration" placeholder="" required="">
+                        <div class="invalid-feedback">
+                            Expiration date required
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="cc-expiration">Codigo CVV</label>
+                        <input type="text" class="form-control" id="cc-cvv" name="cc-cvv" placeholder="" required="">
+                        <div class="invalid-feedback">
+                            Security code required
+                        </div>
+                    </div>
+                </div>
+                <hr >
+                <div class="mt-4 mb-5">
+                    <button class="btn btn-primary btn-lg btn-block" type="submit"
+                    style="background-color: #f26522; border-color: #f26522;">Realizar compra</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    let promo;
+
+    function newOrder(e){
+        e.preventDefault();
+        const values = getFormValues()
+
+        if(validations(values)){
+            var base_url = window.location.origin;
+            
+            let myShoppyngCar = "{{ shoppingCar|safe }}";
+            myShoppyngCar = myShoppyngCar.replace(/'/g, '"');
+            myShoppyngCar = JSON.parse(myShoppyngCar)
+
+            let finalTotal = () =>{
+                let total = '{{ total }}';
+                if (promo === undefined){
+                    return total + 0
+                }else{
+                    discount = promo.discount
+                    return total - (total / discount)
+                }
+            }
+
+            checkout = {
+                user :{
+                    name : values.name,
+                    lastname : values.lastname,
+                    email : values.email,
+                    address : values.address
+                },   
+                payment:{
+                    cardName : values.cardName,
+                    cardNumber : values.cardNumber,  
+                    expiration : values.expiration,  
+                    cvv : values.cvv        
+                },
+                promo : promo === undefined ? '' : promo,
+                total : finalTotal(),
+                shoppingCar: myShoppyngCar
+            }
+        
+            fetch(base_url+'/payment/',{
+            method: "POST",
+            headers: {
+               'Content-Type': 'application/json',
+               "X-CSRFToken": '{{csrf_token}}'
+            },
+               body: JSON.stringify(checkout)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.code === 200) {
+                    url = base_url + '/thanks/' + data.orden;
+                    window.location.href = url;
+                } else {
+                    alert('Error al realizar la Orden');
+                }
+            })
+            .catch(error => {
+               alert('Error interno al realizar la Orden')
+               console.error(error)
+            });
+        }else{
+
+        }
+    }
+
+
+    function getFormValues(){
+        let name = document.getElementById('firstName').value
+        let lastname = document.getElementById('lastName').value
+        let email = document.getElementById('email').value
+        let address = document.getElementById('address').value
+        let cardname = document.getElementById('cc-name').value
+        let cardNumber = document.getElementById('cc-number').value
+        let expiration = document.getElementById('cc-expiration').value
+        let cvv = document.getElementById('cc-cvv').value
+
+        return {
+            name : name,
+            lastname : lastname,
+            email : email,
+            address : address , 
+            cardName : cardname,
+            cardNumber : cardNumber,
+            expiration : expiration,
+            cvv : cvv
+        }
+    }
+
+    function validations(values){
+        return true
+    }
+
+    function validatedPromoCode(){
+        var base_url = window.location.origin;
+        let code = document.getElementById('promoCode').value
+        let total =  document.querySelector('.total-price').getAttribute('data-price');
+
+        const promoCode = fetch(base_url+'/code/',{
+            method: "POST",
+            headers: {
+               'Content-Type': 'application/json',
+               "X-CSRFToken": '{{csrf_token}}'
+            },
+               body: JSON.stringify({
+                  'code': code,
+               })
+            })
+            .then(response => response.json())
+            .then(data => {
+                
+                if (data.code === 400){
+                    alert('El Codigo no Existe')
+                }else if (data.code == 404){
+                    alert('Error al Validator el Codigo')
+                }else{
+                    const totalElement = document.getElementById('total');
+                    total = total - (total / 10 )
+                    console.log(total)
+                    promo = data.promo
+                    totalElement.textContent = "₡ " + total.toString()
+                    alert("Promocion Aplicada")
+                }
+            })
+            .catch(error => {
+               alert('Error al buscar el Codigo')
+               console.error(error)
+            });      
+        
+    }
+
+
+    function checkoutCarCount() {
+
+        const mycar = () => {
+            let myShoppyngCar = "{{ shoppingCar|safe }}";
+            
+            if (myShoppyngCar === "{}") {
+                return {}
+            } else {
+                myShoppyngCar = myShoppyngCar.replace(/'/g, '"');
+                myShoppyngCar = JSON.parse(myShoppyngCar)
+
+                return myShoppyngCar
+            } 
+        }
+        
+        const car = document.getElementById('countCar');
+
+        if (mycar() === {}) {
+            car.innerHTML = 0;
+        } else {
+            let myItems = Object.keys(mycar()).length;
+            car.innerHTML = myItems;
+        }
+    }
+
+    checkoutCarCount()
+
+
+</script>
+{% endblock %}
